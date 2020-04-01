@@ -52,31 +52,35 @@ public class Jeopardy implements ActionListener {
 		// 1. Make the frame show up
 frame.setVisible(true);
 		// 2. Give your frame a title
-frame.setTitle("Jeapordy");
+frame.setTitle("Jeopardy");
 		// 3. Create a JPanel variable to hold the header using the createHeader method
 JPanel panel = new JPanel();
-panel.add(createHeader("The dinosaurs"));
+panel.add(createHeader("Math"));
 		// 4. Add the header component to the quizPanel
-quizPanel.add(createHeader("The dinosaurs"));
+quizPanel.add(createHeader("Math"));
 		// 5. Add the quizPanel to the frame
 frame.add(quizPanel);
 		// 6. Use the createButton method to set the value of firstButton
 		// 7. Add the firstButton to the quizPanel
-quizPanel.add(createButton("$100"));
+firstButton=createButton("$200");
+quizPanel.add(firstButton);
 		// 8. Write the code to complete the createButton() method below. Check that your
 		// game looks like Figure 1 in the Jeopardy Handout - http://bit.ly/1bvnvd4.
 frame.pack();
 		// 9. Use the secondButton variable to hold a button using the createButton
 		// method
-
+secondButton=createButton("$400");
 		// 10. Add the secondButton to the quizPanel
-quizPanel.add(createButton("$200"));
+quizPanel.add(secondButton);
 		// 11. Add action listeners to the buttons (2 lines of code)
-
+firstButton.addActionListener(this);
+secondButton.addActionListener(this);
 		// 12. Write the code to complete the actionPerformed() method below
 
 		// 13. Add buttons so that you have $200, $400, $600, $800 and $1000 questions
-		
+thirdButton=createButton("$600");
+quizPanel.add(thirdButton);
+thirdButton.addActionListener(this);
 		 /*
 		 * [optional] Use the showImage or playSound methods when the user answers a
 		 * question
@@ -109,7 +113,18 @@ return button;
 
 		JButton buttonPressed = (JButton) e.getSource();
 		// If the buttonPressed was the firstButton
-
+if(buttonPressed==firstButton) {
+	askQuestion("What is the vertex point of a parabola of y = 3(x-5)+3", "(5, 3)", 200);
+	firstButton.setText("");
+}
+if(buttonPressed==secondButton) {
+	askQuestion("Without using a calculator, find the greatest possible hypotenuse of integer length of a right triangle that's smaller leg is equal to 9 (NOTE: The sides of the triangle are a Pythagorean Triple.)","41", 400);
+	secondButton.setText("");
+}
+if(buttonPressed==thirdButton) {
+	askQuestion("What is the equation of a circle that's center is (1, 2) and has a radius of 3", "(x-1)^2+(y-2)^2 = 9", 600);
+	thirdButton.setText("");
+}
 			// Call the askQuestion() method
  
 		// Complete the code in the askQuestion() method. When you play the game, the score should change.
@@ -127,24 +142,25 @@ return button;
 		// Use the playJeopardyTheme() method to play music while the use thinks of an answer
 		playJeopardyTheme();
 		// Remove this temporary message and replace it with a pop-up that asks the user the question
-		JOptionPane.showMessageDialog(null, "this is where the question will be asked");
+		String answer = JOptionPane.showInputDialog(question);
 		
 		// Stop the theme music when they have entered their response. Hint: use the sound variable 
-		
+		sound.stop();
 		// If the answer is correct
-
+if(answer.equalsIgnoreCase(correctAnswer)) {
 			// Increase the score by the prizeMoney
-
+score+=prizeMoney;
 			// Pop up a message to tell the user they were correct
-
+JOptionPane.showMessageDialog(null, "You are correct!");
 		// Otherwise
-
+}else {
 			// Decrement the score by the prizeMoney
-
+score-=prizeMoney;
 			// Pop up a message to tell the user they were wrong and give them the correct answer
-
+JOptionPane.showMessageDialog(null, "You are incorrect! The answer was "+ correctAnswer);
 		// Call the updateScore() method
-
+}
+updateScore();
 	}
 
 	public void playJeopardyTheme() {
