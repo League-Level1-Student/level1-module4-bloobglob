@@ -11,18 +11,21 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class Calculator implements MouseListener {
+public class Calculator implements ActionListener {
+	JTextField num1 = new JTextField(10);
+	JTextField num2 = new JTextField(10);
+	JButton add = new JButton("add");
+	JButton subtract = new JButton("subtract");
+	JButton multiply = new JButton("multiply");
+	JButton divide = new JButton("divide");
+	JLabel label = new JLabel();
+	JFrame frame = new JFrame();
 	void run() {
-		JFrame frame = new JFrame();
 		JPanel panel = new JPanel();
-		JTextField num1 = new JTextField(10);
-		JTextField num2 = new JTextField(10);
-		JButton add = new JButton("add");
-		JButton subtract = new JButton("subtract");
-		JButton multiply = new JButton("multiply");
-		JButton divide = new JButton("divide");
-		add.addMouseListener(this);
-		JLabel label;
+		add.addActionListener(this);
+		subtract.addActionListener(this);
+		multiply.addActionListener(this);
+		divide.addActionListener(this);
 		frame.add(panel);
 		panel.add(num1);
 		panel.add(num2);
@@ -30,38 +33,31 @@ public class Calculator implements MouseListener {
 		panel.add(subtract);
 		panel.add(multiply);
 		panel.add(divide);
+		panel.add(label);
 		frame.pack();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 	}
 
 	@Override
-	public void mouseClicked(MouseEvent e) {
+	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+		JButton buttonPressed = (JButton) e.getSource();
+		int int1 = Integer.parseInt(num1.getText());
+		int int2 = Integer.parseInt(num2.getText());
+		if(buttonPressed == add) {
+			label.setText("Answer: " + (int1 + int2));
+		}
+		if(buttonPressed == subtract) {
+			label.setText("Answer: " + (int1 - int2));
+		}
+		if(buttonPressed == multiply) {
+			label.setText("Answer: " + (int1 * int2));
+		}
+		if(buttonPressed == divide) {
+			label.setText("Answer: " + (int1 / int2));
+		}
+		frame.pack();
+		frame.repaint();
 	}
 }
