@@ -12,8 +12,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class Calculator implements ActionListener {
-	JTextField num1 = new JTextField(10);
-	JTextField num2 = new JTextField(10);
+	JTextField num1 = new JTextField(50);
+	JTextField num2 = new JTextField(50);
 	JButton add = new JButton("add");
 	JButton subtract = new JButton("subtract");
 	JButton multiply = new JButton("multiply");
