@@ -1,67 +1,79 @@
 package _11_whack_a_mole;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Date;
+import java.util.Random;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-public class WhackaMole {
-	void run() {
-		JFrame frame = new JFrame("Whack a Mole");
+public class WhackaMole implements ActionListener {
+	Date date = new Date();
+		JButton mole = new JButton("mole");
+		JFrame frame = new JFrame();
 		JPanel panel = new JPanel();
-		JButton button1 = new JButton();
-		JButton button2 = new JButton();
-		JButton button3 = new JButton();
-		JButton button4 = new JButton();
-		JButton button5 = new JButton();
-		JButton button6 = new JButton();
-		JButton button7 = new JButton();
-		JButton button8 = new JButton();
-		JButton button9 = new JButton();
-		JButton button10 = new JButton();
-		JButton button11 = new JButton();
-		JButton button12 = new JButton();
-		JButton button13 = new JButton();
-		JButton button14 = new JButton();
-		JButton button15 = new JButton();
-		JButton button16 = new JButton();
-		JButton button17 = new JButton();
-		JButton button18 = new JButton();
-		JButton button19 = new JButton();
-		JButton button20 = new JButton();
-		JButton button21 = new JButton();
-		JButton button22 = new JButton();
-		JButton button23 = new JButton();
-		JButton button24 = new JButton();
-		frame.add(panel);
-		panel.add(button1);
-		panel.add(button2);
-		panel.add(button3);
-		panel.add(button4);
-		panel.add(button5);
-		panel.add(button6);
-		panel.add(button7);
-		panel.add(button8);
-		panel.add(button9);
-		panel.add(button10);
-		panel.add(button11);
-		panel.add(button12);
-		panel.add(button13);
-		panel.add(button14);
-		panel.add(button15);
-		panel.add(button16);
-		panel.add(button17);
-		panel.add(button18);
-		panel.add(button19);
-		panel.add(button20);
-		panel.add(button21);
-		panel.add(button22);
-		panel.add(button23);
-		panel.add(button24);
-		frame.setSize(240, 300);
+		int score = 0;
+		int moleLocation;
+	void run() {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setSize(240, 300);
+		setUpPanel();
 		frame.setVisible(true);
+	}
+	void speak(String words) { 
+	    try { 
+	        Runtime.getRuntime().exec("say " + words).waitFor();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	}
+	void setUpPanel() {
+		mole.addActionListener(this);
+		panel = new JPanel();
+		frame.add(panel);
+		moleLocation = new Random().nextInt(24);
+		for(int i = 0; i < moleLocation; i++) {
+			JButton button = new JButton();
+			button.addActionListener(this);
+			panel.add(button);
+		}
+		panel.add(mole);
+		for(int i = moleLocation+1; i<24;i++) {
+			JButton button = new JButton();
+			button.addActionListener(this);
+			panel.add(button);
+		}
+		frame.repaint();
+	}
+	private void endGame(Date timeAtStart, int molesWhacked) { 
+	    Date timeAtEnd = new Date();
+	    JOptionPane.showMessageDialog(null, "Your whack rate is "
+	            + ((timeAtEnd.getTime() - timeAtStart.getTime()) / 1000.00 / molesWhacked)
+	                  + " moles per second.");
 	}
 	public static void main(String[] args) {
 		new WhackaMole().run();
+	}
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		JButton buttonPressed = (JButton) e.getSource();
+		if(buttonPressed!=mole) {
+			speak("You clicked the wrong button!");
+		}
+		if(mole==buttonPressed) {
+			score++;
+			if(score>=10) {
+				endGame(date, 10);
+			}else {
+				frame.dispose();
+				frame = new JFrame();
+				run();
+			}
+			System.out.println(score);
+		}
 	}
 }
