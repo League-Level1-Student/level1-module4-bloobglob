@@ -20,6 +20,7 @@ public class SlotMachine implements ActionListener {
 	JLabel slot1 = new JLabel();
 	JLabel slot2 = new JLabel();
 	JLabel slot3 = new JLabel();
+	int winTimes = 0;
 	void run() {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.add(panel);
@@ -62,7 +63,8 @@ public class SlotMachine implements ActionListener {
 			frame.repaint();
 			frame.pack();
 			if(image1==image2 && image2==image3) {
-				JOptionPane.showMessageDialog(null, "YOU WIN!");
+				winTimes++;
+				JOptionPane.showMessageDialog(null, "You win! You have won " + winTimes + " times");
 			}
 		}
 	}
